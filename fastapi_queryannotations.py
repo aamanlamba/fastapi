@@ -1,5 +1,5 @@
 # Query annotations and validations
-from typing import Annotated
+from typing import Annotated, Literal
 
 from fastapi import FastAPI, Query
 
@@ -64,4 +64,55 @@ async def read_items(
     results = {"item_id": item_id}
     if q:
         results.update({"q": q})
+    return results
+
+# query parameters with Pydantic models
+from pydantic import BaseModel, Field, HttpUrl
+from fastapi import Query
+
+class FilterParams(BaseModel):
+    # do not allow extra fields in the query parameters
+    model_config = {"extra": "forbid"}
+
+    limit: int = Field(100, gt=0, le=100)
+    offset: int = Field(0, ge=0)
+    order_by: Literal["created_at", "updated_at"] = "created_at"
+    tags: list[str] = []
+
+# endpoint using the FilterParams model for query parameters
+# FastAPI will extract the data for each field
+# from the query parameters in the request 
+# and give you the Pydantic model you defined.
+@app.get("/queryitems/")
+async def read_query_items(filter_query: Annotated[FilterParams, Query()]):
+    return filter_query
+
+class Image(BaseModel):
+    url: HttpUrl
+    name: str
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+    tags: set[str] = set()
+    # optional nested model
+    image: Image | None = None
+
+# endpoint with path parameter validation and request body
+@app.put("/items/{item_id}")
+async def update_item(
+    # item_id is a path parameter
+    item_id: Annotated[int, Path(title="The ID of the item to get", ge=0, le=1000)],
+    q: str | None = None,
+    # item is a request body parameter
+    item: Item | None = None,
+):
+    results = {"item_id": item_id}
+    if item:
+        # if query parameter q is present, append it to the tags list
+        if q:
+            item.tags.append(q)
+            results.update({"q": q})
+        results.update({"item": item})
     return results
