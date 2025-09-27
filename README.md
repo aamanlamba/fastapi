@@ -51,4 +51,7 @@ MIT License
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Author
-[Your Name]
+Aaman Lamba
+
+## Based on
+[Fast API Tutorial](https://fastapi.tiangolo.com/tutorial/)
