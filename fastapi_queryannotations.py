@@ -99,6 +99,7 @@ class Item(BaseModel):
     # optional nested model
     image: Image | None = None
 
+
 # endpoint with path parameter validation and request body
 @app.put("/items/{item_id}")
 async def update_item(

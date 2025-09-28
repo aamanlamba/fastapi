@@ -1,21 +1,26 @@
 # FastAPI Project
 
 ## Description
+
 This is a FastAPI project that provides a RESTful API service.
 
 ## Installation
+
 ```bash
 pip install fastapi
 pip install uvicorn
 ```
 
 ## Usage
+
 To run the server:
+
 ```bash
 uvicorn main:app --reload
 ```
 
 ## Code Examples
+
 ```python
 # Basic GET endpoint
 @app.get("/")
@@ -34,24 +39,30 @@ def read_query(name: str, age: int = None):
 ```
 
 ## Features
+
 - Fast performance
 - Automatic API documentation
 - Data validation
 - Easy to use
 
 ## Requirements
+
 - Python 3.7+
 - FastAPI
 - Uvicorn
 
 ## License
+
 MIT License
 
 ## Contributing
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Author
+
 Aaman Lamba
 
 ## Based on
+
 [Fast API Tutorial](https://fastapi.tiangolo.com/tutorial/)
