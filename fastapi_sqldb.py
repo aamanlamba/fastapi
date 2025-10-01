@@ -77,7 +77,7 @@ def update_hero(hero_id: int, hero: HeroUpdate, session: SessionDep):
     session.commit()
     session.refresh(hero_db)
     return hero_db
-
+ 
 @app.delete("/heroes/{hero_id}")
 def delete_hero(hero_id: int, session: SessionDep):
     hero = session.get(Hero, hero_id)
